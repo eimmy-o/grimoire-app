@@ -1,5 +1,5 @@
-import { Slot } from 'react-native';
+import { Redirect } from 'expo-router';
 
 export default function Index() {
-  return <Slot />;
+  return <Redirect href="/(drawer)/(tabs)/index" />;
 }
