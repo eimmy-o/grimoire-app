@@ -26,7 +26,7 @@ export default function RootLayout() {
     const inAuthGroup = segments[0] === '(auth)';
 
     if (session && inAuthGroup) {
-      router.replace('/(drawer)/(tabs)/personajes'); 
+      router.replace('/'); 
     } else if (!session && !inAuthGroup) {
       router.replace('/login');
     }
