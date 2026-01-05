@@ -1,4 +1,3 @@
-// app/(drawer)/(tabs)/compendio/index.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { supabase } from '../../../../lib/supabase';
@@ -15,7 +14,6 @@ export default function CompendioIndex() {
 
   async function fetchAllData() {
     try {
-      // Hacemos las 3 peticiones en paralelo (Promise.all es más rápido)
       const [racesRes, classesRes, spellsRes] = await Promise.all([
         supabase.from('races').select('*'),
         supabase.from('classes').select('*'),
@@ -33,7 +31,6 @@ export default function CompendioIndex() {
     }
   }
 
-  // Tarjeta simple para los items
   const InfoCard = ({ title, subtitle, color }) => (
     <View style={[styles.card, { borderLeftColor: color }]}>
       <Text style={styles.cardTitle}>{title}</Text>
@@ -48,7 +45,6 @@ export default function CompendioIndex() {
       <Text style={styles.mainHeader}>Conocimiento Arcano</Text>
       <Text style={styles.subHeader}>Todo lo que necesitas para tu aventura</Text>
 
-      {/* SECCIÓN 1: RAZAS */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Razas</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
@@ -61,7 +57,6 @@ export default function CompendioIndex() {
         </ScrollView>
       </View>
 
-      {/* SECCIÓN 2: CLASES */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Clases</Text>
         {classes.map(c => (
@@ -69,12 +64,11 @@ export default function CompendioIndex() {
             key={c.id} 
             title={c.name} 
             subtitle={`Dado de Golpe: ${c.hit_die}`} 
-            color="#8C7051" // Marrón
+            color="#8C7051" 
           />
         ))}
       </View>
 
-      {/* SECCIÓN 3: HECHIZOS */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Hechizos</Text>
         {spells.map(s => (
@@ -82,7 +76,7 @@ export default function CompendioIndex() {
             key={s.id} 
             title={s.name} 
             subtitle={`${s.school} | Daño: ${s.damage || 'N/A'}`} 
-            color="#E07A5F" // Terracota mágico
+            color="#E07A5F" 
           />
         ))}
       </View>
@@ -101,7 +95,6 @@ const styles = StyleSheet.create({
   section: { marginBottom: 30 },
   sectionTitle: { fontSize: 20, fontWeight: 'bold', color: '#5D8C5D', marginBottom: 15 },
   
-  // Estilo Horizontal (Cajas)
   horizontalScroll: { paddingBottom: 10 },
   boxCard: {
     backgroundColor: '#FFF',
@@ -117,7 +110,6 @@ const styles = StyleSheet.create({
   boxTitle: { fontWeight: 'bold', color: '#4A3F35', fontSize: 16 },
   boxDetail: { color: '#8C7051', fontSize: 12, marginTop: 5 },
 
-  // Estilo Lista (Fichas)
   card: {
     backgroundColor: '#FFF',
     padding: 15,

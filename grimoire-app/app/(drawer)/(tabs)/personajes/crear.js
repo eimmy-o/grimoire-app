@@ -9,16 +9,13 @@ export default function CrearPersonaje() {
   const [loading, setLoading] = useState(false);
   const [catalogsLoaded, setCatalogsLoaded] = useState(false);
   
-  // Datos del formulario
   const [name, setName] = useState('');
   const [races, setRaces] = useState([]);
   const [classes, setClasses] = useState([]);
   
-  // Selección del usuario
   const [selectedRace, setSelectedRace] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
 
-  // Cargar catálogos al iniciar
   useEffect(() => {
     fetchCatalogs();
   }, []);
@@ -47,14 +44,13 @@ export default function CrearPersonaje() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
-      // 1. Crear el Personaje Base
       const { data: charData, error: charError } = await supabase
         .from('characters')
         .insert([{
           user_id: user.id,
           name: name,
-          total_level: 1, // Empiezan nivel 1
-          current_hp: 10, // Default simple
+          total_level: 1, 
+          current_hp: 10, 
           max_hp: 10
         }])
         .select()
@@ -64,13 +60,11 @@ export default function CrearPersonaje() {
 
       const charId = charData.id;
 
-      // 2. Relacionar Raza
       await supabase.from('character_races').insert({
         character_id: charId,
         race_id: selectedRace.id
       });
 
-      // 3. Relacionar Clase
       await supabase.from('character_classes').insert({
         character_id: charId,
         class_id: selectedClass.id,
@@ -78,7 +72,7 @@ export default function CrearPersonaje() {
       });
 
       Alert.alert('¡Éxito!', 'Tu héroe ha nacido.', [
-        { text: 'Genial', onPress: () => router.back() } // Volver a la lista
+        { text: 'Genial', onPress: () => router.replace('/(drawer)/(tabs)/personajes') } 
       ]);
 
     } catch (error) {
@@ -88,7 +82,6 @@ export default function CrearPersonaje() {
     }
   }
 
-  // Componente de Selección (Píldoras)
   const SelectionPill = ({ item, isSelected, onPress }) => (
     <TouchableOpacity 
       style={[styles.pill, isSelected && styles.pillSelected]} 
@@ -104,7 +97,6 @@ export default function CrearPersonaje() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.title}>Nuevo Aventurero</Text>
       
-      {/* SECCIÓN NOMBRE */}
       <View style={styles.section}>
         <Text style={styles.label}>Nombre del Héroe</Text>
         <TextInput
@@ -116,7 +108,6 @@ export default function CrearPersonaje() {
         />
       </View>
 
-      {/* SECCIÓN RAZA */}
       <View style={styles.section}>
         <Text style={styles.label}>Elige una Raza</Text>
         <View style={styles.pillsContainer}>
@@ -133,7 +124,6 @@ export default function CrearPersonaje() {
         </View>
       </View>
 
-      {/* SECCIÓN CLASE */}
       <View style={styles.section}>
         <Text style={styles.label}>Elige una Clase</Text>
         <View style={styles.pillsContainer}>
@@ -150,7 +140,6 @@ export default function CrearPersonaje() {
         </View>
       </View>
 
-      {/* BOTÓN CREAR */}
       <TouchableOpacity 
         style={styles.createButton} 
         onPress={handleCreate}
@@ -164,7 +153,7 @@ export default function CrearPersonaje() {
         )}
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cancelButton} onPress={() => router.back()}>
+      <TouchableOpacity style={styles.cancelButton} onPress={() => router.replace('/(drawer)/(tabs)/personajes')}>
         <Text style={styles.cancelText}>Cancelar</Text>
       </TouchableOpacity>
 

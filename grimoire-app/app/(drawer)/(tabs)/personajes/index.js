@@ -10,7 +10,6 @@ export default function Personajes() {
   const [refreshing, setRefreshing] = useState(false);
   const router = useRouter();
 
-  // 1. Cargar Personajes (Se ejecuta cada vez que entras a la pantalla)
   useFocusEffect(
     useCallback(() => {
       fetchCharacters();
@@ -34,7 +33,6 @@ export default function Personajes() {
 
       if (error) throw error;
 
-      // Aplanamos la estructura para que sea fácil de usar
       const formattedData = data.map(char => ({
         id: char.id,
         name: char.name,
@@ -52,33 +50,10 @@ export default function Personajes() {
     }
   }
 
-  // 2. Función para borrar personaje
-  const handleDelete = (id, name) => {
-    Alert.alert(
-      "Borrar Personaje",
-      `¿Estás seguro que quieres eliminar a ${name}? Esta acción es permanente.`,
-      [
-        { text: "Cancelar", style: "cancel" },
-        { 
-          text: "Eliminar", 
-          style: "destructive",
-          onPress: async () => {
-            const { error } = await supabase.from('characters').delete().eq('id', id);
-            if (error) Alert.alert('Error', error.message);
-            else fetchCharacters(); // Recargamos la lista
-          }
-        }
-      ]
-    );
-  };
-
-  // 3. Renderizado de cada tarjeta
   const renderItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.card}
-      onPress={() => console.log('Ver detalles de', item.id)} // Futuro: Ver detalles
-      onLongPress={() => handleDelete(item.id, item.name)} // Mantener presionado para borrar
-      delayLongPress={500}
+      onPress={() => router.push(`/(drawer)/(tabs)/personajes/${item.id}`)}
     >
       <View style={styles.avatarContainer}>
         <Text style={styles.avatarText}>{item.name.charAt(0)}</Text>
@@ -109,10 +84,8 @@ export default function Personajes() {
         />
       )}
 
-      {/* Botón Flotante (FAB) para crear */}
       <TouchableOpacity 
         style={styles.fab} 
-        // CAMBIO IMPORTANTE: Apunta a 'crear' (que es el archivo crear.js en la misma carpeta)
         onPress={() => router.push('/(drawer)/(tabs)/personajes/crear')} 
       >
         <Ionicons name="add" size={30} color="#FFF" />
@@ -128,7 +101,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     padding: 20,
-    paddingBottom: 100, // Espacio para el FAB
+    paddingBottom: 100,
   },
   card: {
     backgroundColor: '#FFFFFF',
@@ -137,7 +110,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 12,
     borderRadius: 12,
-    // Sombra suave
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,

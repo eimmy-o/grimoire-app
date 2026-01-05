@@ -1,4 +1,3 @@
-// app/(drawer)/(tabs)/campanas/crear.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { supabase } from '../../../../lib/supabase';
@@ -28,7 +27,7 @@ export default function CrearCampana() {
       if (error) throw error;
 
       Alert.alert('¡Aventura lista!', 'La campaña ha sido creada.', [
-        { text: 'Ir al mapa', onPress: () => router.back() }
+        { text: 'Ir al mapa', onPress: () => router.replace('/(drawer)/(tabs)/campanas') }
       ]);
     } catch (error) {
       Alert.alert('Error', error.message);
@@ -67,8 +66,7 @@ export default function CrearCampana() {
 
       <TouchableOpacity 
         style={{ alignItems: 'center', marginTop: 20 }} 
-        // CAMBIO AQUÍ: Redirección explícita al index de campañas
-        onPress={() => router.back()}
+        onPress={() => router.replace('/(drawer)/(tabs)/campanas')}
       >
         <Text style={{ color: '#A3B18A', fontSize: 16 }}>Cancelar</Text>
       </TouchableOpacity>

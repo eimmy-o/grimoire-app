@@ -11,7 +11,6 @@ function CustomDrawerContent(props) {
   const [username, setUsername] = useState('Viajero');
   const [loading, setLoading] = useState(true);
 
-  // Cargamos el nombre real del usuario al abrir el menú
   useEffect(() => {
     getProfile();
   }, []);
@@ -28,7 +27,6 @@ function CustomDrawerContent(props) {
         if (data) setUsername(data.username);
       }
     } catch (error) {
-      // Si falla, se queda como 'Viajero'
     } finally {
       setLoading(false);
     }
@@ -55,13 +53,11 @@ function CustomDrawerContent(props) {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#F8F4E3', paddingTop: 50 }}>
-        {/* Cabecera Personalizada con Datos Reales */}
         <View style={styles.drawerHeader}>
           <View style={styles.avatarPlaceholder}>
             {loading ? (
               <ActivityIndicator color="#FFF" />
             ) : (
-              // Muestra la inicial del usuario
               <Text style={styles.avatarInitial}>{username.charAt(0).toUpperCase()}</Text>
             )}
           </View>
@@ -76,7 +72,6 @@ function CustomDrawerContent(props) {
         <DrawerItem
           label="Cerrar Sesión"
           icon={({ color, size }) => <Ionicons name="log-out-outline" size={size} color={color} />}
-          // CAMBIO AQUÍ: Quitamos el -20 y ponemos 5 para separar
           labelStyle={{ marginLeft: 5, fontWeight: 'bold' }}
           onPress={handleLogout}
           activeTintColor="#A3B18A"
@@ -96,10 +91,8 @@ export default function DrawerLayout() {
         drawerActiveBackgroundColor: '#5D8C5D',
         drawerActiveTintColor: '#FFF',
         drawerInactiveTintColor: '#4A3F35',
-        // CAMBIO AQUÍ: Quitamos el -20 y ponemos 5 para separar en todos los items
         drawerLabelStyle: { marginLeft: 5, fontWeight: '600' },
         drawerStyle: { backgroundColor: '#F8F4E3', width: 280 },
-        // Añadimos un poco de estilo al item para que no esté tan pegado a los bordes
         drawerItemStyle: { borderRadius: 10, marginHorizontal: 10, marginVertical: 2 }
       }}
     >

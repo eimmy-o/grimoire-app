@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Image } from 'react-native';
+import React, { useEffect, useState , useCallback} from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { supabase } from '../../../lib/supabase';
-import { useRouter } from 'expo-router';
-// Importamos nuestros nuevos componentes bonitos
+import { useRouter , useFocusEffect } from 'expo-router';
 import { CampaignCard, CharacterCard, CompendioCard } from '../../../components/HomeWidgets';
 
 export default function Home() {
@@ -10,22 +9,21 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({ name: '' });
   
-  // Estados para los datos del Dashboard
   const [campaigns, setCampaigns] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [recaps, setRecaps] = useState([]);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchDashboardData();
+    }, [])
+  );
 
   async function fetchDashboardData() {
     try {
-      // 1. Obtener Usuario Actual
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return; // Si no hay usuario, no hacemos nada
+      if (!user) return; 
 
-      // 2. Obtener Perfil (Nombre)
       const { data: profile } = await supabase
         .from('profiles')
         .select('username')
@@ -33,17 +31,14 @@ export default function Home() {
         .single();
       setUserData({ name: profile?.username || 'Viajero' });
 
-      // --- AQUÍ ESTABA EL ERROR ---
-      // 3. Obtener Campañas (SOLO las creadas por el usuario actual)
       const { data: camps } = await supabase
         .from('campaigns')
         .select('*')
-        .eq('created_by', user.id) // <--- ¡ESTA LÍNEA ES LA CLAVE!
+        .eq('created_by', user.id) 
         .order('created_at', { ascending: false })
         .limit(5);
       setCampaigns(camps || []);
 
-      // 4. Obtener Personajes (Los últimos 3 creados por este usuario)
       const { data: chars } = await supabase
         .from('characters')
         .select(`
@@ -51,7 +46,7 @@ export default function Home() {
           character_races(races(name)),
           character_classes(classes(name))
         `)
-        .eq('user_id', user.id) // Aquí sí lo teníamos bien
+        .eq('user_id', user.id) 
         .order('created_at', { ascending: false })
         .limit(3);
         
@@ -64,7 +59,6 @@ export default function Home() {
       }));
       setCharacters(formattedChars || []);
 
-      // 5. Recap del Compendio (Esto sí es público para todos)
       const { data: spells } = await supabase
         .from('spells')
         .select('name, school')
@@ -85,13 +79,11 @@ export default function Home() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       
-      {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.greeting}>Hola de nuevo,</Text>
         <Text style={styles.username}>{userData.name}</Text>
       </View>
 
-      {/* SECCIÓN 1: CAMPAÑAS ACTIVAS (Scroll Horizontal) */}
       <View style={styles.section}>
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Campañas Activas</Text>
@@ -114,7 +106,6 @@ export default function Home() {
         )}
       </View>
 
-      {/* SECCIÓN 2: PERSONAJES RECIENTES */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Personajes Recientes</Text>
         {characters.length === 0 ? (
@@ -133,7 +124,6 @@ export default function Home() {
         )}
       </View>
 
-      {/* SECCIÓN 3: COMPENDIO RECAP (Novedades) */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Elementos de Biblioteca</Text>
         <View style={styles.recapContainer}>
@@ -155,7 +145,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F4E3', // Fondo Crema
+    backgroundColor: '#F8F4E3', 
   },
   contentContainer: {
     padding: 20,
@@ -194,7 +184,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   horizontalScroll: {
-    paddingBottom: 10, // Espacio para la sombra
+    paddingBottom: 10, 
   },
   recapContainer: {
     backgroundColor: 'rgba(255,255,255,0.4)',

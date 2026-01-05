@@ -7,7 +7,6 @@ import { useNavigation } from "expo-router";
 export default function TabsLayout() {
   const navigation = useNavigation();
 
-  // Función segura para abrir el Drawer
   const toggleMenu = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
@@ -20,21 +19,19 @@ export default function TabsLayout() {
         tabBarActiveTintColor: '#5D8C5D',
         tabBarInactiveTintColor: '#8C7051',
         
-        // --- ARREGLO 1: Estilos de la Barra Inferior (Más alta) ---
         tabBarStyle: {
           backgroundColor: '#F8F4E3',
           borderTopColor: '#A3B18A',
-          height: 75, // Aumentado de 60 a 75 para evitar solapamiento
-          paddingBottom: 15, // Más espacio abajo
+          height: 75, 
+          paddingBottom: 15, 
           paddingTop: 10,
         },
         tabBarLabelStyle: {
           fontWeight: '600',
-          fontSize: 11, // Un pelín más pequeño para asegurar que quepa
-          marginTop: -5, // Ajuste fino para separar del icono
+          fontSize: 11, 
+          marginTop: -5, 
         },
         
-        // Estilos del Header
         headerStyle: {
           backgroundColor: '#F8F4E3',
           elevation: 0,
@@ -47,18 +44,16 @@ export default function TabsLayout() {
           fontSize: 20,
         },
 
-        // --- ARREGLO 2: Botón Hamburguesa (Visible en todas) ---
         headerLeft: () => (
           <TouchableOpacity 
             onPress={toggleMenu} 
-            style={{ marginLeft: 20, padding: 5 }} // Padding extra para facilitar el toque
+            style={{ marginLeft: 20, padding: 5 }} 
           >
             <Ionicons name="menu" size={30} color="#4A3F35" />
           </TouchableOpacity>
         ),
       }}
     >
-      {/* 1. INICIO */}
       <Tabs.Screen
         name="index"
         options={{
@@ -70,21 +65,18 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* 2. PERSONAJES */}
       <Tabs.Screen
         name="personajes/index"
         options={{
-          title: "Mis Héroes",
+          title: "Mis Personajes",
           tabBarLabel: "Personajes",
-          // --- ARREGLO 3: Header ACTIVADO ---
-          headerShown: true, // Ahora sí se verá la barra superior y el menú
+          headerShown: true, 
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons name={focused ? "people" : "people-outline"} size={size} color={color} />
           ),
         }}
       />
 
-      {/* 3. CAMPAÑAS */}
       <Tabs.Screen
         name="campanas/index"
         options={{
@@ -96,7 +88,6 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* 4. COMPENDIO */}
       <Tabs.Screen
         name="compendio/index"
         options={{
@@ -108,20 +99,38 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* --- RUTAS OCULTAS --- */}
       <Tabs.Screen 
         name="personajes/crear" 
         options={{ 
           href: null, 
-          title: "Nuevo Héroe", 
+          title: "Nuevo Personaje", 
           tabBarStyle: { display: 'none' } 
         }} 
       />
+
+      <Tabs.Screen 
+        name="personajes/[id]" 
+        options={{ 
+          href: null, 
+          title: "Descripcion", 
+          tabBarStyle: { display: 'none' } 
+        }} 
+      />
+
       <Tabs.Screen 
         name="campanas/crear" 
         options={{ 
           href: null, 
           title: "Nueva Aventura", 
+          tabBarStyle: { display: 'none' } 
+        }} 
+      />
+
+      <Tabs.Screen 
+        name="campanas/[id]" 
+        options={{ 
+          href: null, 
+          title: "Descripcion", 
           tabBarStyle: { display: 'none' } 
         }} 
       />

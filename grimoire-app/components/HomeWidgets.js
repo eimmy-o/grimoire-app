@@ -31,11 +31,10 @@ export const CharacterCard = ({ name, race, classInfo, level, onPress }) => {
 
 //Tarjeta de Compendio 
 export const CompendioCard = ({ title, type, detail, onPress }) => {
-  // Color distintivo según el tipo
   const getBadgeColor = () => {
-    if (type === 'Hechizo') return '#E07A5F'; // Terracota
-    if (type === 'Clase') return '#81B29A'; // Verde menta
-    return '#F2CC8F'; // Amarillo arena
+    if (type === 'Hechizo') return '#E07A5F'; 
+    if (type === 'Clase') return '#81B29A'; 
+    return '#F2CC8F'; 
   };
 
   return (
@@ -52,7 +51,6 @@ export const CompendioCard = ({ title, type, detail, onPress }) => {
 };
 
 const styles = StyleSheet.create({
-  // Estilos Campaña
   campaignCard: {
     backgroundColor: '#FFFFFF',
     width: 140,
@@ -61,7 +59,6 @@ const styles = StyleSheet.create({
     padding: 12,
     marginRight: 15,
     justifyContent: 'space-between',
-    // Sombra suave
     shadowColor: '#4A3F35',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -73,7 +70,7 @@ const styles = StyleSheet.create({
   campaignIconPlaceholder: {
     width: 40,
     height: 40,
-    backgroundColor: '#A3B18A', // Verde suave
+    backgroundColor: '#A3B18A', 
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -82,7 +79,6 @@ const styles = StyleSheet.create({
   campaignTitle: { fontSize: 14, fontWeight: 'bold', color: '#4A3F35', marginTop: 8 },
   campaignDesc: { fontSize: 10, color: '#8C7051' },
 
-  // Estilos Generales Lista (Personajes)
   listCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -91,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: '#5D8C5D', // Borde verde lateral
+    borderLeftColor: '#5D8C5D', 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
@@ -101,7 +97,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#DDBEA9', // Color piel/tierra claro
+    backgroundColor: '#DDBEA9', 
     marginRight: 12,
   },
   textContainer: { flex: 1 },
@@ -109,11 +105,10 @@ const styles = StyleSheet.create({
   listSubtitle: { fontSize: 12, color: '#6B705C' },
   arrow: { fontSize: 18, color: '#A3B18A', fontWeight: 'bold' },
 
-  // Estilos Compendio
   compendioRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.6)', // Semitransparente
+    backgroundColor: 'rgba(255,255,255,0.6)', 
     padding: 10,
     marginBottom: 8,
     borderRadius: 8,

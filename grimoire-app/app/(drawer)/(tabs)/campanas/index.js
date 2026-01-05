@@ -1,4 +1,3 @@
-// app/(drawer)/(tabs)/campanas/index.js
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { supabase } from '../../../../lib/supabase';
@@ -23,7 +22,7 @@ export default function CampanasList() {
       const { data, error } = await supabase
         .from('campaigns')
         .select('*')
-        .eq('created_by', user.id) // Solo las que yo creé
+        .eq('created_by', user.id) 
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -37,13 +36,18 @@ export default function CampanasList() {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <View style={styles.iconBox}>
-        <Text style={styles.iconText}>{item.title.charAt(0)}</Text>
-      </View>
-      <View style={styles.info}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.desc} numberOfLines={2}>{item.description}</Text>
-      </View>
+      <TouchableOpacity 
+        style={styles.card}
+        onPress={() => router.push(`/(drawer)/(tabs)/campanas/${item.id}`)}
+      >
+        <View style={styles.iconBox}>
+          <Text style={styles.iconText}>{item.title.charAt(0)}</Text>
+        </View>
+        <View style={styles.info}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.desc} numberOfLines={2}>{item.description}</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 
@@ -63,7 +67,6 @@ export default function CampanasList() {
         />
       )}
 
-      {/* Botón Flotante para Crear */}
       <TouchableOpacity 
         style={styles.fab} 
         onPress={() => router.push('/(drawer)/(tabs)/campanas/crear')}
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#8C7051', // Marrón tierra para campañas
+    backgroundColor: '#8C7051', 
     width: 60,
     height: 60,
     borderRadius: 30,
