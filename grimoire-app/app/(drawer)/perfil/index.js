@@ -19,7 +19,7 @@ export default function Personajes() {
       if (!user) return;
 
       const { data, error } = await supabase
-        .from('profile')
+        .from('profiles')
         .select(`*`)
         .eq('id', user.id)
         .single();
