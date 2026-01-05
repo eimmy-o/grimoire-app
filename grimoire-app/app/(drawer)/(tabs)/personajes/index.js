@@ -54,6 +54,8 @@ export default function Personajes() {
     <TouchableOpacity 
       style={styles.card}
       onPress={() => router.push(`/(drawer)/(tabs)/personajes/${item.id}`)}
+      onLongPress={() => handleDelete(item.id, item.name)}
+      delayLongPress={500}
     >
       <View style={styles.avatarContainer}>
         <Text style={styles.avatarText}>{item.name.charAt(0)}</Text>
@@ -65,6 +67,25 @@ export default function Personajes() {
       <Ionicons name="chevron-forward" size={20} color="#A3B18A" />
     </TouchableOpacity>
   );
+
+  const handleDelete = (id, name) => {
+    Alert.alert(
+      "Borrar Personaje",
+      `¿Estás seguro que quieres eliminar a ${name}? Esta acción es permanente.`,
+      [
+        { text: "Cancelar", style: "cancel" },
+        { 
+          text: "Eliminar", 
+          style: "destructive",
+          onPress: async () => {
+            const { error } = await supabase.from('characters').delete().eq('id', id);
+            if (error) Alert.alert('Error', error.message);
+            else fetchCharacters();
+          }
+        }
+      ]
+    );
+  };
 
   return (
     <View style={styles.container}>
