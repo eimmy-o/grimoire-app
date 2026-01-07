@@ -84,6 +84,12 @@ export default function Login() {
           <Text style={styles.linkText}>Crear cuenta</Text>
         </TouchableOpacity>
       </Link>
+
+      <Link href="/biblioteca" asChild>
+        <TouchableOpacity style={styles.linkContainer}>
+          <Text style={styles.linkText}>Ver Biblioteca</Text>
+        </TouchableOpacity>
+      </Link>
     </View>
   );
 }
