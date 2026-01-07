@@ -35,24 +35,38 @@ export default function Personajes() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.contenedor}>
       {loading ? (
         <ActivityIndicator style={{ marginTop: 50 }} size="large" color="#5D8C5D" />
       ) : profile ? (
         <View>
-          <Text style={styles.text}>Perfil de Usuario</Text>
-          <Text style={styles.subtext}>UserName: { profile.id } </Text>
-          <Text style={styles.subtext}>Avatar URL: { profile.avatar_url } </Text>
+          <Text style={styles.titulo}>Perfil de Usuario</Text>
+          <Text style={styles.texto}>UserName: { profile.id } </Text>
+          <Text style={styles.texto}>Avatar URL: { profile.avatar_url } </Text>
         </View>
       ) : (
-        <Text style={styles.text}>No se encontró el perfil.</Text>
+        <Text style={styles.texto}>No se encontró el perfil.</Text>
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F8F4E3' },
-  text: { fontSize: 24, fontWeight: 'bold', color: '#4A3F35', marginTop: 20 },
-  subtext: { fontSize: 16, color: '#8C7051', marginTop: 10, fontStyle: 'italic' }
+  contenedor: {
+        flex: 1, 
+        padding: 50, 
+        backgroundColor: '#F8F4E3',
+    },
+
+    titulo: {
+        fontSize: 24, marginBottom: 20, fontWeight: 'bold'
+    },
+
+    item: {
+        padding: 15, borderBottomWidth: 1, borderColor: '#ccc'
+    },
+
+    texto: {
+        fontSize: 18
+    },
 });
